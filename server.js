@@ -119,6 +119,7 @@ const addNewEmployee = () => {
         });
     });
 }
+
 // ======================= Add a role =================================================
 const addNewRole = () =>{
     const roleQuery = "SELECT * FROM roles; SELECT * FROM department;";
@@ -156,6 +157,7 @@ const addNewRole = () =>{
         });
     });
 }
+
 // ======================= Add a department ===========================================
 const addNewDepartment = () => {
     const deptQuery = "SELECT * FROM department";
@@ -179,7 +181,15 @@ const addNewDepartment = () => {
         });
     });
 }
+
 // ======================= View employees =============================================
+const allEmployees = () => {
+    db.query("SELECT * FROM employee", (err, result) => {
+        if(err) throw err;
+        console.table(result);
+        menu();
+    })
+}
 // ======================= view roles =================================================
 // ======================= View departments ===========================================
 // ======================= Update employee role =======================================
