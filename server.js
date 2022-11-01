@@ -71,7 +71,7 @@ const menu = () => {
 }
 
 // ======================= Add an employee ============================================
-const addEmployee = () => {
+const addNewEmployee = () => {
     const getRoles = 'SELECT * FROM roles; SELECT CONCAT (e.f_name," ",e.l_name) AS full_name FROM employee e';
     db.query(getRoles, (err, result) =>{
         if(err) throw err;
@@ -120,6 +120,42 @@ const addEmployee = () => {
     });
 }
 // ======================= Add a role =================================================
+const addNewRole = () =>{
+    const roleQuery = "SELECT * FROM roles; SELECT * FROM department;";
+    db.query(roleQuery, (err, result) => {
+        if (err) throw err;
+
+        inquirer
+        .prompt([
+            {
+                type: "input",
+                name: "title",
+                message:"What is the title?",
+            },
+            {
+                type: "input",
+                name: "salary",
+                message:"What is the salary?",
+            },
+            {
+                type: "list",
+                name: "department",
+                choices: function() {
+                    let choices = result[1].map((choice) => choice.name);
+                    return choices;
+                },
+                message:"Chose a department?",
+            },
+        ])
+        .then((response) => {
+            db.query(`INSERT INTO roles(title, salary, department_id) 
+            VALUES("${answer.title}","${answer.salary}", 
+            (SELECT id FROM department WHERE name = "${answer.list}"));`
+            );
+            menu();
+        });
+    });
+}
 // ======================= Add a department ===========================================
 // ======================= View employees =============================================
 // ======================= view roles =================================================
