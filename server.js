@@ -4,15 +4,23 @@ const inquirer = require("inquirer");
 
 // Connection with MySQL
 const db = mysql.createConnection({
-    host:"localhost",
-    user:"root",
-    passowrd:'Test1234!',
-    database:"employee_db"
+    host:'localhost',
+    user:'root',
+    password:'Test1234!',
+    database:'employee_db'
 
+});
+
+// Create a START MENU message
+db.connect((err) => {
+    if(err) throw err;
+
+    console.table("\n\n Employee - Tracker \n\n");
+
+    menu();
 })
 
 // Create a Prompt Menu
-
 const menu = () => {
     inquirer.prompt(
         {
@@ -75,12 +83,12 @@ const menu = () => {
             case "Exit":
                 break;
         }
-    })
+    });
 }
 
 // ======================= Add an employee ============================================
 const addNewEmployee = () => {
-    const getRoles = 'SELECT * FROM roles; SELECT CONCAT (e.f_name," ",e.l_name) AS full_name FROM employee e';
+    const getRoles = 'SELECT CONCAT(f_name, " ",l_name) AS full_name FROM employee';
     db.query(getRoles, (err, result) =>{
         if(err) throw err;
 
@@ -100,7 +108,7 @@ const addNewEmployee = () => {
             {
                 name:"role",
                 type:"list",
-                choice: function() {
+                choices: function() {
                     let choice = result[0].map((choice) => choice.title); // check the title in the Database
                     return choice;
                 },
@@ -109,7 +117,7 @@ const addNewEmployee = () => {
             {
                 name:"manager",
                 type:"list",
-                choice: function() {
+                choices: function() {
                     let choice = result[0].map((choice) => choice.full_name); // check the title in the Database
                     return choice;
                 },
