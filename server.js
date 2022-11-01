@@ -191,6 +191,13 @@ const allEmployees = () => {
     })
 }
 // ======================= view roles =================================================
+const allRoles = () => {
+    db.query("SELECT * FROM roles", (err, result) => {
+        if(err) throw err;
+        console.table(result);
+        menu();
+    })
+}
 // ======================= View departments ===========================================
 // ======================= Update employee role =======================================
 // ======================= Update employee manager ====================================
