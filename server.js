@@ -199,6 +199,13 @@ const allRoles = () => {
     })
 }
 // ======================= View departments ===========================================
+const allDepartments = () => {
+    db.query("SELECT * FROM department", (err, result) => {
+        if(err) throw err;
+        console.table(result);
+        menu();
+    })
+}
 // ======================= Update employee role =======================================
 // ======================= Update employee manager ====================================
 // ======================= View the total salary per department =======================
