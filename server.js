@@ -3,7 +3,7 @@ const mysql = require('mysql2');
 const inquirer = require("inquirer");
 
 // Connection with MySQL
-const connection = mysql.createConnection({
+const db = mysql.createConnection({
     host:"localhost",
     user:"root",
     passowrd:'Test1234!',
@@ -70,3 +70,72 @@ const menu = () => {
     })
 }
 
+// ======================= Add an employee ============================================
+const addEmployee = () => {
+    const getRoles = 'SELECT * FROM roles; SELECT CONCAT (e.f_name," ",e.l_name) AS full_name FROM employee e';
+    db.query(getRoles, (err, result) =>{
+        if(err) throw err;
+
+        inquirer
+        .prompt([
+            {
+                type:"input",
+                name:"firstName",
+                message: "What is the first name?",
+
+            },
+            {
+                type:"input",
+                name:"lastName",
+                message: "What is the last name?",
+            },
+            {
+                name:"role",
+                type:"list",
+                choice: function() {
+                    let choice = result[0].map((choice) => choice.title); // check the title in the Database
+                    return choice;
+                },
+                message:"What is their role?",
+            },
+            {
+                name:"manager",
+                type:"list",
+                choice: function() {
+                    let choice = result[0].map((choice) => choice.full_name); // check the title in the Database
+                    return choice;
+                },
+                message:"What is their role?",
+            },
+        ])
+        .then((response) => {
+            db.query(`INSERT INTO employee(f_name,l_name,role_id,manager_id)
+            VALUES(?,?,
+                (SELECT id FROM roles WHERE title = ?),
+                (SELECT id FROM (SELECT id FROM employee WHERE CONCAT(f_name,'',l_name) = ?)
+                AS tmptable))`, [response.firstName, response.lastName, response.role, response.manager]
+            );
+            menu();
+        });
+    });
+}
+// ======================= Add a role =================================================
+// ======================= Add a department ===========================================
+// ======================= View employees =============================================
+// ======================= view roles =================================================
+// ======================= View departments ===========================================
+// ======================= Update employee role =======================================
+// ======================= Update employee manager ====================================
+// ======================= View the total salary per department =======================
+// ======================= Exit =======================================================
+
+
+/*
+const askNewEmployee = [
+    "What is the first name?", **
+    "What is the last name?",***
+    "What is their role?",****
+    "Who is their manager?",
+  ];
+
+  */
