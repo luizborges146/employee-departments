@@ -213,6 +213,29 @@ const allDepartments = () => {
     })
 }
 // ======================= Update employee role =======================================
+const employeeRoleUpdate = () => {
+    inquirer
+    .prompt([
+        {
+            name: "empId",
+            type: "input",
+            message: "What is the employee ID?",
+          },
+          {
+            name: "roleId",
+            type: "input",
+            message: "What is the role ID?",
+          },
+    ])
+    .then((response) => {
+        db.query(`UPDATE employee SET role_id = ? WHERE id = ?`, 
+        [response.roleId, response.empId], (err, result) => {
+            if(err) throw err;
+            console.log(result);
+            menu();
+        });
+    });
+}
 // ======================= Update employee manager ====================================
 // ======================= View the total salary per department =======================
 // ======================= Exit =======================================================
