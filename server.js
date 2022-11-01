@@ -14,7 +14,7 @@ const db = mysql.createConnection({
 // Create a Prompt Menu
 
 const menu = () => {
-    insquirer.prompt(
+    inquirer.prompt(
         {
             type:"list",
             name: "menu",
@@ -62,9 +62,11 @@ const menu = () => {
                 break;
 
             case "Update employee role":
+                employeeRoleUpdate();
                 break;
 
             case "Update employee manager":
+                employeeManagerUpdate();
                 break;
 
             case "View the total salary per department":
