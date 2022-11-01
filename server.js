@@ -149,14 +149,36 @@ const addNewRole = () =>{
         ])
         .then((response) => {
             db.query(`INSERT INTO roles(title, salary, department_id) 
-            VALUES("${answer.title}","${answer.salary}", 
-            (SELECT id FROM department WHERE name = "${answer.list}"));`
+            VALUES("${response.title}","${response.salary}", 
+            (SELECT id FROM department WHERE name = "${response.list}"));`
             );
             menu();
         });
     });
 }
 // ======================= Add a department ===========================================
+const addNewDepartment = () => {
+    const deptQuery = "SELECT * FROM department";
+    db.query(deptQuery,(err, result) =>{
+        if(err) throw err;
+
+        inquirer
+        .prompt([
+            {
+                type:"input",
+                name:"dept",
+                message:"Add the name of the new Department:",
+            },
+        ])
+        .then((response) => {
+            db.query(`INSERT INTO department(name) VALUES(?)`,[response.dept],
+            (err,result) => {
+                menu();
+            }
+            );
+        });
+    });
+}
 // ======================= View employees =============================================
 // ======================= view roles =================================================
 // ======================= View departments ===========================================
