@@ -38,21 +38,27 @@ const menu = () => {
     .then((response) => {
         switch (response.menu) {
             case "Add an employee":
+                addNewEmployee();
                 break;
 
             case "Add a role":
+                addNewRole();
                 break;
             
             case "Add a department":
+                addNewDepartment();
                 break;
 
             case "View employees":
+                allEmployees();
                 break;
 
             case "view roles":
+                allRoles();
                 break;
 
             case "View departments":
+                allDepartments();
                 break;
 
             case "Update employee role":
