@@ -77,8 +77,9 @@ const menu = () => {
                 employeeManagerUpdate();
                 break;
 
-            // case "View the total salary per department":
-            //     break;
+            case "View the total salary per department":
+                budgetDept();
+                break;
 
             case "Exit":
                 break;
@@ -270,6 +271,14 @@ const employeeManagerUpdate = () => {
     });
 }
 // ======================= View the total salary per department =======================
+const budgetDept = () => {
+    const budgetPerDept = 'SELECT department.d_name AS department, SUM(roles.salary) FROM roles LEFT JOIN department ON roles.dpt_id = department.id GROUP BY department.d_name;';
+    db.query(budgetPerDept, (err, result) => {
+        if(err) throw err;
+        console.table(result);
+        menu();
+    })
+}
 // ======================= Exit =======================================================
 
   const checkDpt = () => {
