@@ -31,8 +31,14 @@ Simple and visual access to the Notes.
  * Funcitonalities.
    * View all employees, roles and departments.
    * Add new employee, roles and departments.
-   * Update employee manager and employee role.
+   * Update employee role.
    * Application use CREATE, READ UPDATE in SQL.
+
+##### Bonus
+   * View total salary per department
+   * Update employee manager
+
+![alt View Roles](assets/images/salaryDept.png)
 
 
 
