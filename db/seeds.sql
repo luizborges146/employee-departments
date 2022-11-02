@@ -55,3 +55,9 @@ SELECT * FROM employee;
 SELECT * FROM roles;
 
 
+ SELECT employee.id, CONCAT(employee.f_name," ",employee.l_name) AS full_name, employee.manager_id, roles.title, roles.salary
+ FROM employee 
+ LEFT JOIN roles 
+ ON employee.role_id = roles.id
+ LEFT JOIN employee
+ on employee.manager_id = full_name;

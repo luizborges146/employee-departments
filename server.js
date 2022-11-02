@@ -135,11 +135,12 @@ const addNewEmployee = () => {
 
 // ======================= Add a role =================================================
 const addNewRole = () =>{
-    checkDpt();
-    console.log("\n");
+    // checkDpt();
+    // console.log("\n");
     const roleQuery = "SELECT * FROM department;";
     db.query(roleQuery, (err, result) => {
         if (err) throw err;
+        console.log(result);
 
 
         inquirer
@@ -197,7 +198,8 @@ const addNewDepartment = () => {
 
 // ======================= View employees =============================================
 const allEmployees = () => {
-    db.query("SELECT * FROM employee", (err, result) => {
+    const queryEmp = 'SELECT employee.id, CONCAT(employee.f_name," ",employee.l_name) AS full_name, employee.manager_id, roles.title, roles.salary FROM employee LEFT JOIN roles ON employee.role_id = roles.id;'
+    db.query(queryEmp, (err, result) => {
         if(err) throw err;
         console.table(result);
         menu();
