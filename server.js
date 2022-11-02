@@ -138,9 +138,12 @@ const addNewEmployee = () => {
 
 // ======================= Add a role =================================================
 const addNewRole = () =>{
+    checkDpt();
+    console.log("\n");
     const roleQuery = "SELECT * FROM department;";
     db.query(roleQuery, (err, result) => {
         if (err) throw err;
+
 
         inquirer
         .prompt([
@@ -155,19 +158,15 @@ const addNewRole = () =>{
                 message:"What is the salary?",
             },
             {
-                type: "list",
+                type: "input",
                 name: "department",
-                choices: function() {
-                    let choices = result.map((choices) => choices.d_name);
-                    return choices;
-                },
-                message:"Chose a department?",
-            },
+                message:"Please enter the department ID?",
+            }
         ])
         .then((response) => {
+            console.table(response);
             db.query(`INSERT INTO roles(title, salary, dpt_id) 
-            VALUES["${response.title}","${response.salary}", 
-            (SELECT id FROM department WHERE d_name = "${response.department}")];`
+            VALUES("${response.title}",${response.salary}, "${response.department}");`
             );
             menu();
         });
@@ -284,3 +283,9 @@ const askNewEmployee = [
   ];
 
   */
+  const checkDpt = () => {
+    db.query("SELECT * FROM department", (err, result) => {
+        if(err) throw err;
+        console.table(result);
+    })
+}
