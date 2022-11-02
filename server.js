@@ -112,19 +112,15 @@ const addNewEmployee = () => {
                 name:"role",
                 type:"list",
                 choices: function() {
-                    let choiceArr = result.map((choice) => choice.title); // check the title in the Database
-                    console.log(choiceArr);
-                    return choiceArr;
+                    let getChoice = result.map((choice) => choice.title); // check the title in the Database
+                    // console.log(getChoice);
+                    return getChoice;
                 },
                 message:"What is their role?",
             },
             {
                 name:"manager",
                 type:"input",
-                // choices: function() {
-                //     let choice = getFullName.map((choice) => choice.full_name); // check the title in the Database
-                //     return choice;
-                // },
                 message:"What is The Manager ID?",
             },
         ])
