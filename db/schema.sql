@@ -30,3 +30,7 @@ CREATE TABLE employee (
 SHOW COLUMNS FROM department;
 SHOW COLUMNS FROM employee;
 SHOW COLUMNS FROM roles;
+
+employeeManagerUpdate();
+
+employeeRoleUpdate();

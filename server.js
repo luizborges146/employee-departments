@@ -88,9 +88,12 @@ const menu = () => {
 
 // ======================= Add an employee ============================================
 const addNewEmployee = () => {
-    const getRoles = 'SELECT * FROM roles; SELECT CONCAT(f_name, " ",l_name) AS full_name FROM employee';
+    // const getRoles = 'SELECT * FROM roles; SELECT CONCAT(f_name, " ",l_name) AS full_name FROM employee';
+    const getRoles = "SELECT * FROM roles"; 
     db.query(getRoles, (err, result) =>{
         if(err) throw err;
+
+        // console.table(result);
 
         inquirer
         .prompt([
@@ -109,27 +112,25 @@ const addNewEmployee = () => {
                 name:"role",
                 type:"list",
                 choices: function() {
-                    let choice = result[0].map((choice) => choice.title); // check the title in the Database
+                    let choice = result.map((choice) => choice.title); // check the title in the Database
                     return choice;
                 },
                 message:"What is their role?",
             },
             {
                 name:"manager",
-                type:"list",
-                choices: function() {
-                    let choice = result[0].map((choice) => choice.full_name); // check the title in the Database
-                    return choice;
-                },
-                message:"What is their role?",
+                type:"input",
+                // choices: function() {
+                //     let choice = getFullName.map((choice) => choice.full_name); // check the title in the Database
+                //     return choice;
+                // },
+                message:"What is The Manager ID?",
             },
         ])
         .then((response) => {
             db.query(`INSERT INTO employee(f_name,l_name,role_id,manager_id)
             VALUES(?,?,
-                (SELECT id FROM roles WHERE title = ?),
-                (SELECT id FROM (SELECT id FROM employee WHERE CONCAT(f_name,'',l_name) = ?)
-                AS tmptable))`, [response.firstName, response.lastName, response.role, response.manager]
+                (SELECT id FROM roles WHERE title = ?),?`, [response.firstName, response.lastName, response.role, response.manager]
             );
             menu();
         });
@@ -273,16 +274,6 @@ const employeeManagerUpdate = () => {
 // ======================= View the total salary per department =======================
 // ======================= Exit =======================================================
 
-
-/*
-const askNewEmployee = [
-    "What is the first name?", **
-    "What is the last name?",***
-    "What is their role?",****
-    "Who is their manager?",
-  ];
-
-  */
   const checkDpt = () => {
     db.query("SELECT * FROM department", (err, result) => {
         if(err) throw err;
