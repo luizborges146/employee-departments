@@ -26,7 +26,7 @@ const menu = () => {
         {
             type:"list",
             name: "menu",
-            message:"What would you like to do?", // check this phrase with Andrew later
+            message:"What would you like to do?",
             choices:[
                 "Add an employee",
                 "Add a role",
