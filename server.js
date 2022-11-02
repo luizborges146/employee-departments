@@ -88,7 +88,7 @@ const menu = () => {
 
 // ======================= Add an employee ============================================
 const addNewEmployee = () => {
-    const getRoles = 'SELECT CONCAT(f_name, " ",l_name) AS full_name FROM employee';
+    const getRoles = 'SELECT * FROM roles; SELECT CONCAT(f_name, " ",l_name) AS full_name FROM employee';
     db.query(getRoles, (err, result) =>{
         if(err) throw err;
 
@@ -138,7 +138,7 @@ const addNewEmployee = () => {
 
 // ======================= Add a role =================================================
 const addNewRole = () =>{
-    const roleQuery = "SELECT * FROM roles; SELECT * FROM department;";
+    const roleQuery = "SELECT * FROM department;";
     db.query(roleQuery, (err, result) => {
         if (err) throw err;
 
@@ -158,19 +158,20 @@ const addNewRole = () =>{
                 type: "list",
                 name: "department",
                 choices: function() {
-                    let choices = result[1].map((choice) => choice.name);
+                    let choices = result.map((choices) => choices.d_name);
                     return choices;
                 },
                 message:"Chose a department?",
             },
         ])
         .then((response) => {
-            db.query(`INSERT INTO roles(title, salary, department_id) 
-            VALUES("${response.title}","${response.salary}", 
-            (SELECT id FROM department WHERE name = "${response.list}"));`
+            db.query(`INSERT INTO roles(title, salary, dpt_id) 
+            VALUES["${response.title}","${response.salary}", 
+            (SELECT id FROM department WHERE d_name = "${response.department}")];`
             );
             menu();
         });
+        
     });
 }
 
@@ -189,7 +190,7 @@ const addNewDepartment = () => {
             },
         ])
         .then((response) => {
-            db.query(`INSERT INTO department(name) VALUES(?)`,[response.dept],
+            db.query(`INSERT INTO department(d_name) VALUES(?)`,[response.dept],
             (err,result) => {
                 menu();
             }
