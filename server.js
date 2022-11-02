@@ -77,8 +77,8 @@ const menu = () => {
                 employeeManagerUpdate();
                 break;
 
-            case "View the total salary per department":
-                break;
+            // case "View the total salary per department":
+            //     break;
 
             case "Exit":
                 break;
@@ -88,7 +88,7 @@ const menu = () => {
 
 // ======================= Add an employee ============================================
 const addNewEmployee = () => {
-    // const getRoles = 'SELECT * FROM roles; SELECT CONCAT(f_name, " ",l_name) AS full_name FROM employee';
+    
     const getRoles = "SELECT * FROM roles"; 
     db.query(getRoles, (err, result) =>{
         if(err) throw err;
@@ -112,7 +112,7 @@ const addNewEmployee = () => {
                 name:"role",
                 type:"list",
                 choices: function() {
-                    let getChoice = result.map((choice) => choice.title); // check the title in the Database
+                    let getChoice = result.map((choice) => choice.title);
                     // console.log(getChoice);
                     return getChoice;
                 },
@@ -135,12 +135,10 @@ const addNewEmployee = () => {
 
 // ======================= Add a role =================================================
 const addNewRole = () =>{
-    // checkDpt();
-    // console.log("\n");
     const roleQuery = "SELECT * FROM department;";
     db.query(roleQuery, (err, result) => {
         if (err) throw err;
-        console.log(result);
+        console.table(result);
 
 
         inquirer
@@ -177,6 +175,7 @@ const addNewDepartment = () => {
     const deptQuery = "SELECT * FROM department";
     db.query(deptQuery,(err, result) =>{
         if(err) throw err;
+        console.table(result);
 
         inquirer
         .prompt([

@@ -1,7 +1,7 @@
 # Note Taker Express
 
 * [GitHub repository](https://github.com/luizborges146/employee-departments) Link to the repository<br />
-* [Video Link](https://note-taker-expre.herokuapp.com/notes) This is a video  showing the application<br />
+* [Video Link](https://drive.google.com/file/d/1oZsY8XVWa0WFYXKCUC9DEZ90gR9r0dep/view) This is the video showing the application<br />
 
  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
