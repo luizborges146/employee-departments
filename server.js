@@ -93,7 +93,7 @@ const addNewEmployee = () => {
     db.query(getRoles, (err, result) =>{
         if(err) throw err;
 
-        // console.table(result);
+        console.table(result);
 
         inquirer
         .prompt([
@@ -112,8 +112,9 @@ const addNewEmployee = () => {
                 name:"role",
                 type:"list",
                 choices: function() {
-                    let choice = result.map((choice) => choice.title); // check the title in the Database
-                    return choice;
+                    let choiceArr = result.map((choice) => choice.title); // check the title in the Database
+                    console.log(choiceArr);
+                    return choiceArr;
                 },
                 message:"What is their role?",
             },
@@ -129,8 +130,7 @@ const addNewEmployee = () => {
         ])
         .then((response) => {
             db.query(`INSERT INTO employee(f_name,l_name,role_id,manager_id)
-            VALUES(?,?,
-                (SELECT id FROM roles WHERE title = ?),?`, [response.firstName, response.lastName, response.role, response.manager]
+            VALUES(?,?,?,?)`, [response.firstName, response.lastName, result[result.findIndex((role => role.Title = response.role))].id, response.manager]
             );
             menu();
         });
@@ -209,7 +209,8 @@ const allEmployees = () => {
 }
 // ======================= view roles =================================================
 const allRoles = () => {
-    db.query("SELECT * FROM roles", (err, result) => {
+    const queryRoles = "SELECT roles.id, roles.title, roles.salary, department.d_name AS department FROM roles LEFT JOIN department ON roles.dpt_id = department.id;"
+    db.query(queryRoles, (err, result) => {
         if(err) throw err;
         console.table(result);
         menu();
